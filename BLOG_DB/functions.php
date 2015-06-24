@@ -2,31 +2,24 @@
   
   function registra($title, $text){
     $conn = dbConnect();
-    
     $title = nl2br(htmlentities($title, ENT_QUOTES, 'UTF-8'));
     $text = nl2br(htmlentities($text, ENT_QUOTES, 'UTF-8'));
     $data = date("Y-m-d H:i:s");
-    
     $sql = "INSERT INTO posts(data, title, text) VALUES('"
            . $data . "','" . $title . "','" . $text ."')";
     mysqli_query($conn,$sql) 
     or die("Errore nella query" . mysqli_error($conn));
-    
     mysqli_close($conn);
   }
     
   function leggi($from, $count = NULL){
-    
     $conn = dbConnect();
     $risultato = array();
     $from -= 1;
-    
     $sql = "SELECT * FROM posts ORDER BY data DESC LIMIT "
            . $from . "," . $count;
-           
     $response = mysqli_query($conn, $sql) 
                 or die("ERRORE" . mysqli_error($conn));
-
     while( $row = mysqli_fetch_row($response)){
       $risultato[] = $row;
     }
@@ -65,5 +58,4 @@
     mysqli_select_db($conn, "CTW") or die("ERROR". mysqli_error($conn));
     return $conn;
   }
-  
 ?>
